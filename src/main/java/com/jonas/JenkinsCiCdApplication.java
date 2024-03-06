@@ -12,7 +12,7 @@ public class JenkinsCiCdApplication {
 
 
     @GetMapping("/greetings/{name}")
-    public String greetings(@PathVariable String name) {
+    public String greetings(@PathVariable String name)  {
         //Basant kumar hota
         //sarvindra kumar
        name= name.split(" ")[0];
