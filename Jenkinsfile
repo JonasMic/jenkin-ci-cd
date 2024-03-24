@@ -1,3 +1,4 @@
+/*
 pipeline{
 
     agent any
@@ -8,7 +9,8 @@ pipeline{
 
         stage("SCM checkout"){
             steps{
-                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/JonasMic/jenkin-ci-cd.git']])
+                checkout scmGit(branches: [[name: '*//*
+main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/JonasMic/jenkin-ci-cd.git']])
             }
         }
 
@@ -20,11 +22,16 @@ pipeline{
             }
         }
 
-        /* stage("Deploy to container"){
+         */
+/* stage("Deploy to container"){
             steps{
-                deploy adapters: [tomcat9(credentialsId: 'tomcat.pwd', path: '', url: 'http://localhost:8080/')], contextPath: 'jenkinsCiCd', war: '** /* *//*.war'
+                deploy adapters: [tomcat9(credentialsId: 'tomcat.pwd', path: '', url: 'http://localhost:8080/')], contextPath: 'jenkinsCiCd', war: '**  */
+/* *//*
+ */
+/*.war'
             }
-        } */
+        } *//*
+
 
 
 
@@ -46,4 +53,4 @@ pipeline{
 //SCM checkout
 //build
 //deploy WAR
-// EMAIL
+// EMAIL */
