@@ -24,7 +24,7 @@ pipeline{
         stage("Build Process"){
             steps{
                 script{
-                    sh 'mvn clean install'
+                    bat 'mvn clean install'
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline{
         stage("Build Image"){
             steps{
                 script{
-                    sh 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+                    bat 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
                 }
             }
         }
@@ -40,8 +40,8 @@ pipeline{
         stage("Deploy Image to Hub"){
             steps{
                 withCredentials([string(credentialsId: 'dp', variable: 'dp')]) {
-                 sh 'docker login -u cloud1592017 -p ${dp}'
-                 sh 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
+                 bat 'docker login -u cloud1592017 -p ${dp}'
+                 bat 'docker push ${IMAGE_NAME}:${IMAGE_TAG}'
                 }
             }
         }
