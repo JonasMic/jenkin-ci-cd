@@ -1,42 +1,49 @@
-/*
 pipeline{
-
+    
     agent any
     tools{
         maven "maven"
     }
     stages{
-
+        
         stage("SCM checkout"){
             steps{
-                checkout scmGit(branches: [[name: '*//*
-main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/JonasMic/jenkin-ci-cd.git']])
+                checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/JonasMic/jenkin-ci-cd.git']])
             }
         }
-
-        stage("Build Process"){
+        environment{
+            APP_NAME = "spring-docker-cicd"
+            RELEASE_NO ="1.0.0"
+            DOCKER_USER = "cloud1592017"
+            IMAGE_NAME ="${DOCKER_USER}" +"/"+"${APP_NAME}"
+            IMAGE_TAG="${RELEASE_NO}-${BUILD_NUMBER}"
+        }
+        
+        stage("Build process"){
             steps{
                 script{
                      bat 'mvn clean install'
                 }
             }
         }
-
-         */
-/* stage("Deploy to container"){
+        
+        stage("Build Image"){
             steps{
-                deploy adapters: [tomcat9(credentialsId: 'tomcat.pwd', path: '', url: 'http://localhost:8080/')], contextPath: 'jenkinsCiCd', war: '**  */
-/* *//*
- */
-/*.war'
+                script{
+                    bat 'docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .'
+                }
             }
-        } *//*
-
-
-
-
+        }
+        stage("Deeploy image to hub"){
+            steps{
+                withCredentials([string(credentialsId: 'dochubtoken', variable: 'dochubtoken')]) {
+                    bat 'docker login -u cloud1592017 -p ${dochubtoken}'
+                    bat 'docker push  ${IMAGE_NAME}:${IMAGE_TAG}'
+                    }
+            }
+        }
     }
-
+    
      post{
             always{
                 emailext attachLog: true, body: '''<html>
@@ -53,4 +60,4 @@ main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/JonasMic/
 //SCM checkout
 //build
 //deploy WAR
-// EMAIL */
+// EMAIL
