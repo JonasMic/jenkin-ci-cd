@@ -35,7 +35,7 @@ pipeline{
                 }
             }
         }
-        stage("Deeploy image to hub"){
+        stage("Deploy image to hub"){
             steps{
                 withCredentials([string(credentialsId: 'dochubtoken', variable: 'dochubtoken')]) {
                     bat 'docker login -u cloud1592017 -p ${dochubtoken}'
@@ -58,7 +58,3 @@ pipeline{
         }
 }
 
-//SCM checkout
-//build
-//deploy WAR
-// EMAIL
